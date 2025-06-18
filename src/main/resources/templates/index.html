@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  Hello, this is a simple HTML page served by Spring Boot!
+  <p th:text="${user.name}"></p>
+  <p>authenticated:&nbsp;<span th:text="${user.authenticated}"></span>
+  </p>
+
+  <script type="module" th:inline="javascript">
+    import { PublicClientApplication } from 'https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.13.1/+esm';
+
+    const msalConfig = {
+      auth: {
+        clientId: '4aa95498-a8b7-4227-89f0-463eb90015a7',
+        authority: 'https://login.microsoftonline.com/40fe86af-6ef5-4f98-afac-d84bc53212dd',
+        redirectUri: 'http://localhost:8080/login/oauth2/code/azure/',
+      },
+    };
+    const loginRequest = {
+      scopes: ['openid', 'profile', 'User.Read'],
+    };
+
+    const msalInstance = new PublicClientApplication(msalConfig);
+
+    await msalInstance.initialize()
+
+    async function signIn() {
+      try {
+        const response = await msalInstance.loginPopup(loginRequest);
+        console.log('Login successful:', response);
+      } catch (error) {
+        console.error('Login failed:', error);
+      }
+    }
+
+    signIn();
+  </script>
+</body>
+
+
+</html>

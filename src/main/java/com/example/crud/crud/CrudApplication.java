@@ -3,17 +3,25 @@ package com.example.crud.crud;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.github.cdimascio.dotenv.Dotenv;
 
 @SpringBootApplication
 @RestController
+
+@RequestMapping("/")
 public class CrudApplication {
 
 	public static void main(String[] args) {
+		Dotenv dotenv = Dotenv.configure().load();
+		dotenv.entries().forEach(e -> System.setProperty(e.getKey(), e.getValue()));
+
 		SpringApplication.run(CrudApplication.class, args);
 	}
 
-	@GetMapping("/")
+	@GetMapping("/api")
 	public String home() {
 		return "Welcome to the CRUD application!";
 	}
