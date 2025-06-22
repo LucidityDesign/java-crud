@@ -7,7 +7,7 @@ spring:
     password: ${POSTGRES_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -34,4 +34,8 @@ spring:
             user-name-attribute: name
       resourceserver:
         jwt:
-          issuer-uri: https://login.microsoftonline.com/${AZURE_TENANT_ID}/v2.0
+          # issuer-uri: https://login.microsoftonline.com/${AZURE_TENANT_ID}/v2.0
+          issuer-uri: https://sts.windows.net/${AZURE_TENANT_ID}/
+logging:
+  level:
+    org.springframework.security: DEBUG

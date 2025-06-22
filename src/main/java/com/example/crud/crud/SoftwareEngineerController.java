@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 
 @RestController
 @RequestMapping("/api/v1/software-engineers")
@@ -25,7 +28,9 @@ public class SoftwareEngineerController {
   }
 
   @GetMapping("/")
-  public List<SoftwareEngineer> getAllSoftwareEngineers() {
+  public List<SoftwareEngineer> getAllSoftwareEngineers(
+      // JWT token
+      OAuth2AccessToken token) {
     // Logic to retrieve all software engineers from the database
     return softwareEngineerService.getAllSoftwareEngineers();
   }
@@ -43,6 +48,18 @@ public class SoftwareEngineerController {
     System.out.println(engineer);
     SoftwareEngineer savedEngineer = softwareEngineerService.createSoftwareEngineer(engineer);
     return ResponseEntity.status(HttpStatus.CREATED).body(savedEngineer);
+  }
+
+  @GetMapping("/secure")
+  @ResponseBody
+  public String getSecuredData(Authentication user) {
+    if (user != null) {
+      // Assuming the user is authenticated, return a message with the user's name
+      return "Hello " + user.getName();
+    }
+
+    // Return status code 401 Unauthorized if the user is not authenticated
+    return "Unauthorized";
   }
 
   // Example method to create a new software engineer
