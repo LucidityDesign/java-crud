@@ -1,4 +1,4 @@
-package com.example.crud.crud;
+package com.example.crud.user;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class UserController {
    * @param page Optional page number for pagination, can be null.
    * @return A list of users, paginated if a page number is provided.
    */
-  @GetMapping("/")
+  @GetMapping
   public String getAllUsers(
       Model model,
       // Optional pagination parameter, can be null

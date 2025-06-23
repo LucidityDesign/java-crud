@@ -1,4 +1,4 @@
-package com.example.crud.crud;
+package com.example.crud.softwareEngineer;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 @Controller
-@RequestMapping("/api/v1/software-engineers")
+@RequestMapping("/api/v1/software-engineer")
 public class SoftwareEngineerController {
 
   // This class will handle HTTP requests related to SoftwareEngineer entities
@@ -29,7 +29,7 @@ public class SoftwareEngineerController {
     this.softwareEngineerService = softwareEngineerService;
   }
 
-  @GetMapping("/")
+  @GetMapping
   public String getAllSoftwareEngineers(
       @AuthenticationPrincipal OAuth2User oauth2User, Model model, Integer page) {
     // Logic to retrieve all software engineers from the database

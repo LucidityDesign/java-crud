@@ -1,4 +1,4 @@
-package com.example.crud.crud;
+package com.example.crud.softwareEngineer;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.crud.crud;
+package com.example.crud;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.example.crud.user.UserService;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 

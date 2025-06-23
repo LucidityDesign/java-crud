@@ -1,4 +1,4 @@
-package com.example.crud.crud;
+package com.example.crud.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

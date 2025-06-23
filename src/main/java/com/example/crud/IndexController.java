@@ -1,7 +1,12 @@
-package com.example.crud.crud;
+package com.example.crud;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.crud.softwareEngineer.SoftwareEngineer;
+import com.example.crud.softwareEngineer.SoftwareEngineerService;
+import com.example.crud.user.User;
+import com.example.crud.user.UserService;
 
 import java.util.List;
 
