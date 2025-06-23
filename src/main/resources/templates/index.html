@@ -37,7 +37,7 @@
       </nav>
     </header>
 
-    <div class="max-w-4xl mx-auto px-4 flex flex-col gap-8">
+    <div class="max-w-4xl mx-auto px-4 flex flex-col gap-8 pb-8">
       <section
         hx-get="/api/v1/user/me"
         hx-target=".user-info"
@@ -73,7 +73,9 @@
       <section class="card bg-base-100 shadow p-8">
         <h2 class="text-2xl font-bold mb-4">All registered users:</h2>
         <div class="user-list">
-          <th:block th:replace="~{user/list :: userListFragment}"></th:block>
+          <th:block
+            th:replace="~{user/list :: userListFragment(users=${frontpageData.users})}"
+          ></th:block>
         </div>
 
         <button
@@ -89,7 +91,7 @@
         <h2 class="text-2xl font-bold mb-4">Software Engineers:</h2>
         <div class="engineer-list">
           <th:block
-            th:replace="~{softwareEngineer/list :: softwareEngineerListFragment}"
+            th:replace="~{softwareEngineer/list :: softwareEngineerListFragment(softwareEngineers=${frontpageData.softwareEngineers})}"
           ></th:block>
         </div>
         <button
