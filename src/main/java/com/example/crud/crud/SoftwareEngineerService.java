@@ -2,6 +2,7 @@ package com.example.crud.crud;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,8 +14,9 @@ public class SoftwareEngineerService {
     this.softwareEngineerRepository = softwareEngineerRepository;
   }
 
-  public List<SoftwareEngineer> getAllSoftwareEngineers() {
-    return softwareEngineerRepository.findAll();
+  public List<SoftwareEngineer> getAllSoftwareEngineers(Integer page) {
+    int pageNumber = (page != null) ? page : 0;
+    return softwareEngineerRepository.findAll(Pageable.ofSize(10).withPage(pageNumber)).getContent();
   }
 
   public SoftwareEngineer getSoftwareEngineerById(Integer id) {

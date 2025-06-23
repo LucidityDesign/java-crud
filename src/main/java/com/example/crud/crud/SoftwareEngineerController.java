@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
-@RestController
+@Controller
 @RequestMapping("/api/v1/software-engineers")
 public class SoftwareEngineerController {
 
@@ -28,15 +30,17 @@ public class SoftwareEngineerController {
   }
 
   @GetMapping("/")
-  public List<SoftwareEngineer> getAllSoftwareEngineers(
-      // JWT token
-      OAuth2AccessToken token) {
+  public String getAllSoftwareEngineers(
+      @AuthenticationPrincipal OAuth2User oauth2User, Model model, Integer page) {
     // Logic to retrieve all software engineers from the database
-    return softwareEngineerService.getAllSoftwareEngineers();
+    // return softwareEngineerService.getAllSoftwareEngineers(page);
+    model.addAttribute("softwareEngineers", softwareEngineerService.getAllSoftwareEngineers(page));
+    return "softwareEngineer/list";
   }
 
   @GetMapping("/highId")
-  public List<SoftwareEngineer> getSoftwareEngineersIwhtHighId() {
+  @ResponseBody
+  public List<SoftwareEngineer> getSoftwareEngineersWithHighId() {
     // Logic to retrieve a software engineer by ID from the database
     return softwareEngineerService.getWithHighId();
   }

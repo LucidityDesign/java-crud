@@ -2,6 +2,9 @@ package com.example.crud.crud;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +20,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/")
 public class IndexController {
 
+  // TODO: Create facade for user and software engineer services
   @Autowired
   private UserService userService;
+  @Autowired
+  private SoftwareEngineerService softwareEngineerService;
 
   @Value("${spring.security.oauth2.client.registration.azure-dev.client-id}")
   private String clientId;
@@ -29,6 +35,12 @@ public class IndexController {
   @GetMapping
   public String index(Model model, Authentication user) {
     model.addAttribute("user", user);
+
+    List<User> users = userService.getAllUsers(0);
+    model.addAttribute("users", users);
+
+    List<SoftwareEngineer> softwareEngineers = softwareEngineerService.getAllSoftwareEngineers(0);
+    model.addAttribute("softwareEngineers", softwareEngineers);
 
     return "index";
   }

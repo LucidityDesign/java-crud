@@ -17,27 +17,91 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body class="flex w-full h-screen justify-center bg-gray-100 p-10">
-    <div class="container">
-      <div class="w-800">
-        <h1>Spring Boot + MSAL.js</h1>
-        <!-- TODO fix scoped function call -->
-        <button id="loginButton" class="btn" onclick="signIn()">
+  <body class="bg-base-200 min-h-screen">
+    <header class="navbar bg-base-100 shadow mb-8">
+      <div class="flex-1">
+        <a class="btn btn-ghost text-xl">Spring Boot + MSAL.js</a>
+      </div>
+      <nav class="flex-none gap-2">
+        <button id="loginButton" class="btn btn-primary" onclick="signIn()">
           Login with Azure AD
         </button>
-        <!-- TODO fix scoped function call -->
-        <button id="refreshTokenButton" class="btn" onclick="refreshToken()">
+        <button
+          th:if="${user.authenticated}"
+          id="refreshTokenButton"
+          class="btn btn-secondary"
+          onclick="refreshToken()"
+        >
           Refresh Token
         </button>
-      </div>
+      </nav>
+    </header>
 
-      Hello, this is a simple HTML page served by Spring Boot!
-      <p th:text="${user.name}"></p>
-      <p>authenticated:&nbsp;<span th:text="${user.authenticated}"></span></p>
+    <div class="max-w-4xl mx-auto px-4 flex flex-col gap-8">
+      <section
+        hx-get="/api/v1/user/me"
+        hx-target=".user-info"
+        hx-swap="innerHTML"
+        hx-trigger="load"
+        class="user-info card bg-base-100 shadow p-6"
+      >
+        <div>Loading User Information...</div>
+        <div>...</div>
+      </section>
 
-      <button hx-get="/secure">Put To Messages</button>
+      <section class="card bg-base-100 shadow p-8">
+        <div class="mb-4">
+          <h2 class="text-2xl font-bold mb-2">Welcome!</h2>
+          <p class="text-base-content">
+            Hello, this is a simple HTML page served by Spring Boot!
+          </p>
+        </div>
+        <div class="space-y-2">
+          <div>
+            <span class="font-semibold">User:</span>
+            <span th:text="${user.name}" class="badge badge-info"></span>
+          </div>
+          <div>
+            <span class="font-semibold">Authenticated:</span>
+            <span
+              th:text="${user.authenticated}"
+              class="badge badge-success"
+            ></span>
+          </div>
+        </div>
+      </section>
+      <section class="card bg-base-100 shadow p-8">
+        <h2 class="text-2xl font-bold mb-4">All registered users:</h2>
+        <div class="user-list">
+          <th:block th:replace="~{user/list :: userListFragment}"></th:block>
+        </div>
+
+        <button
+          hx-get="/api/v1/user/"
+          hx-target=".user-list"
+          hx-swap="innerHTML"
+          class="btn btn-secondary mt-4"
+        >
+          Reload all users
+        </button>
+      </section>
+      <section class="card bg-base-100 shadow p-8">
+        <h2 class="text-2xl font-bold mb-4">Software Engineers:</h2>
+        <div class="engineer-list">
+          <th:block
+            th:replace="~{softwareEngineer/list :: softwareEngineerListFragment}"
+          ></th:block>
+        </div>
+        <button
+          hx-get="/api/v1/software-engineers/?page=1"
+          hx-target=".engineer-list"
+          hx-swap="innerHTML"
+          class="btn btn-secondary mt-4"
+        >
+          Load next page of Software Engineers
+        </button>
+      </section>
     </div>
-
     <script type="module" th:inline="javascript">
       import { PublicClientApplication } from "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.13.1/+esm";
 
@@ -95,7 +159,7 @@
 
       // Dealy htmx request until the auth promise has resolved
       // @see https://htmx.org/examples/async-auth/
-      htmx.on("htmx:confirm", (e) => {
+      document.body.addEventListener("htmx:confirm", (e) => {
         // if there is no auth token
         if (response == null) {
           // stop the regular request from being issued
@@ -106,10 +170,9 @@
       });
 
       // add the auth token to the request as a header
-      htmx.on("htmx:configRequest", (e) => {
+      document.body.addEventListener("htmx:configRequest", (e) => {
         e.detail.headers["Authorization"] = `Bearer ${response.accessToken}`;
       });
-
       await refreshToken();
     </script>
   </body>

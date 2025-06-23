@@ -1,0 +1,6 @@
+<ul class="list-disc pl-5" th:fragment="userListFragment">
+  <li th:each="user : ${users}">
+    <div th:text="${user.name}">User Name</div>
+    <div>****@****.com</div>
+  </li>
+</ul>

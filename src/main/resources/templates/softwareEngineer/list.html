@@ -1,0 +1,10 @@
+<ul class="list-disc pl-5" th:fragment="softwareEngineerListFragment">
+  <li th:each="softwareEngineer : ${softwareEngineers}">
+    <div>
+      <span th:text="${softwareEngineer.id}">ID</span> -
+      <span th:text="${softwareEngineer.name}">Name</span>
+    </div>
+    <span th:text="${softwareEngineer.role}">Role</span> -
+    <span th:text="${softwareEngineer.level}">Level</span>
+  </li>
+</ul>
