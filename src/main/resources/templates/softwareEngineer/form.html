@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script
+      src="https://unpkg.com/htmx.org@2.0.4"
+      integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="bg-base-200 min-h-screen">
+    <section class="card bg-base-100 shadow p-8">
+      <form
+        action="#"
+        th:action="@{/api/v1/software-engineer/validate}"
+        th:object="${softwareEngineerForm}"
+        method="post"
+      >
+        <table>
+          <tr>
+            <td>Name:</td>
+            <td><input required type="text" th:field="*{name}" /></td>
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+              Name Error
+            </td>
+          </tr>
+          <tr>
+            <td>Role:</td>
+            <td><input type="text" th:field="*{role}" /></td>
+            <td th:if="${#fields.hasErrors('role')}" th:errors="*{role}">
+              Role Error
+            </td>
+          </tr>
+          <tr>
+            <td>Level:</td>
+            <td><input type="number" th:field="*{level}" /></td>
+            <td th:if="${#fields.hasErrors('level')}" th:errors="*{level}">
+              Level Error
+            </td>
+          </tr>
+          <tr>
+            <td><button type="submit">Submit</button></td>
+          </tr>
+        </table>
+      </form>
+    </section>
+  </body>
+</html>

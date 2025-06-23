@@ -9,15 +9,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import jakarta.validation.Valid;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 @Controller
 @RequestMapping("/api/v1/software-engineer")
-public class SoftwareEngineerController {
+public class SoftwareEngineerApiController {
 
   // This class will handle HTTP requests related to SoftwareEngineer entities
   // It will include methods for creating, reading, updating, and deleting
@@ -25,7 +29,7 @@ public class SoftwareEngineerController {
 
   public final SoftwareEngineerService softwareEngineerService;
 
-  public SoftwareEngineerController(SoftwareEngineerService softwareEngineerService) {
+  public SoftwareEngineerApiController(SoftwareEngineerService softwareEngineerService) {
     this.softwareEngineerService = softwareEngineerService;
   }
 
@@ -52,6 +56,21 @@ public class SoftwareEngineerController {
     System.out.println(engineer);
     SoftwareEngineer savedEngineer = softwareEngineerService.createSoftwareEngineer(engineer);
     return ResponseEntity.status(HttpStatus.CREATED).body(savedEngineer);
+  }
+
+  @PostMapping("/validate")
+  public String createValidSoftwareEngineer(@Valid SoftwareEngineerForm engineerForm, BindingResult bindingResult) {
+    // Logic to save the software engineer to the database
+
+    if (bindingResult.hasErrors()) {
+      return "softwareEngineer/form";
+    }
+    SoftwareEngineer engineer = new SoftwareEngineer(engineerForm.getName(), engineerForm.getRole(),
+        engineerForm.getLevel());
+    softwareEngineerService.createSoftwareEngineer(engineer);
+
+    // Redirect to the list of software engineers after successful creation
+    return "redirect:/";
   }
 
   @GetMapping("/secure")
