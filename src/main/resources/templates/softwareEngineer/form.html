@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Software Engineer Form</title>
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@5"
       rel="stylesheet"
@@ -14,43 +14,72 @@
       integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
       crossorigin="anonymous"
     ></script>
-
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body class="bg-base-200 min-h-screen">
-    <section class="card bg-base-100 shadow p-8">
+  <body class="bg-base-200 min-h-screen flex items-center justify-center">
+    <section
+      class="card bg-base-100 shadow-xl shadow-slate-200 p-8 w-full max-w-md"
+    >
+      <h2 class="card-title mb-6 text-center">Software Engineer Form</h2>
       <form
         action="#"
         th:action="@{/api/v1/software-engineer/validate}"
         th:object="${softwareEngineerForm}"
         method="post"
+        class="space-y-4"
       >
-        <table>
-          <tr>
-            <td>Name:</td>
-            <td><input required type="text" th:field="*{name}" /></td>
-            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
-              Name Error
-            </td>
-          </tr>
-          <tr>
-            <td>Role:</td>
-            <td><input type="text" th:field="*{role}" /></td>
-            <td th:if="${#fields.hasErrors('role')}" th:errors="*{role}">
-              Role Error
-            </td>
-          </tr>
-          <tr>
-            <td>Level:</td>
-            <td><input type="number" th:field="*{level}" /></td>
-            <td th:if="${#fields.hasErrors('level')}" th:errors="*{level}">
-              Level Error
-            </td>
-          </tr>
-          <tr>
-            <td><button type="submit">Submit</button></td>
-          </tr>
-        </table>
+        <div class="form-control">
+          <label class="label" for="name">
+            <span class="label-text">Name</span>
+          </label>
+          <input
+            required
+            type="text"
+            th:field="*{name}"
+            id="name"
+            class="input input-bordered w-full"
+          />
+          <span
+            th:if="${#fields.hasErrors('name')}"
+            th:errors="*{name}"
+            class="text-error text-sm mt-1"
+          ></span>
+        </div>
+        <div class="form-control">
+          <label class="label" for="role">
+            <span class="label-text">Role</span>
+          </label>
+          <input
+            type="text"
+            th:field="*{role}"
+            id="role"
+            class="input input-bordered w-full"
+          />
+          <span
+            th:if="${#fields.hasErrors('role')}"
+            th:errors="*{role}"
+            class="text-error text-sm mt-1"
+          ></span>
+        </div>
+        <div class="form-control">
+          <label class="label" for="level">
+            <span class="label-text">Level</span>
+          </label>
+          <input
+            type="number"
+            th:field="*{level}"
+            id="level"
+            class="input input-bordered w-full"
+          />
+          <span
+            th:if="${#fields.hasErrors('level')}"
+            th:errors="*{level}"
+            class="text-error text-sm mt-1"
+          ></span>
+        </div>
+        <div class="form-control mt-6">
+          <button type="submit" class="btn btn-primary w-full">Save</button>
+        </div>
       </form>
     </section>
   </body>
