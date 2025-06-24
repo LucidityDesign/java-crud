@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.crud.user.User;
+import com.example.crud.user.UserService;
+
 import jakarta.validation.Valid;
 
 import org.springframework.security.core.Authentication;
@@ -28,9 +31,11 @@ public class SoftwareEngineerApiController {
   // software engineers
 
   public final SoftwareEngineerService softwareEngineerService;
+  public final UserService userService;
 
-  public SoftwareEngineerApiController(SoftwareEngineerService softwareEngineerService) {
+  public SoftwareEngineerApiController(SoftwareEngineerService softwareEngineerService, UserService userService) {
     this.softwareEngineerService = softwareEngineerService;
+    this.userService = userService;
   }
 
   @GetMapping
@@ -59,14 +64,23 @@ public class SoftwareEngineerApiController {
   }
 
   @PostMapping("/validate")
-  public String createValidSoftwareEngineer(@Valid SoftwareEngineerForm engineerForm, BindingResult bindingResult) {
+  public String createValidSoftwareEngineer(
+      @Valid SoftwareEngineerForm engineerForm,
+      BindingResult bindingResult,
+      @AuthenticationPrincipal OAuth2User oauth2User) {
     // Logic to save the software engineer to the database
 
     if (bindingResult.hasErrors()) {
       return "softwareEngineer/form";
     }
+
+    String oid = oauth2User.getAttribute("oid");
+
+    User user = userService.getUserByOid(oid)
+        .orElseThrow(() -> new IllegalStateException("User not found"));
+
     SoftwareEngineer engineer = new SoftwareEngineer(engineerForm.getName(), engineerForm.getRole(),
-        engineerForm.getLevel());
+        engineerForm.getLevel(), user);
     softwareEngineerService.createSoftwareEngineer(engineer);
 
     // Redirect to the list of software engineers after successful creation

@@ -1,10 +1,15 @@
 package com.example.crud.user;
 
+import java.util.List;
+
+import com.example.crud.softwareEngineer.SoftwareEngineer;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +25,9 @@ public class User {
 
   @Column(unique = true)
   private String oid; // From Azure 'oid' claim
+
+  @OneToMany(mappedBy = "author")
+  private List<SoftwareEngineer> softwareEngineers;
 
   // getters/setters
   public Long getId() {
