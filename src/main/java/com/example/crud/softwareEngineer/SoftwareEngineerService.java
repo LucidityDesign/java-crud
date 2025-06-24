@@ -2,7 +2,8 @@ package com.example.crud.softwareEngineer;
 
 import java.util.List;
 
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,7 @@ public class SoftwareEngineerService {
 
   public List<SoftwareEngineer> getAllSoftwareEngineers(Integer page) {
     int pageNumber = (page != null) ? page : 0;
-    return softwareEngineerRepository.findAll(Pageable.ofSize(10).withPage(pageNumber)).getContent();
+    return softwareEngineerRepository.findAll(PageRequest.of(pageNumber, 10, Sort.by("id").descending())).getContent();
   }
 
   public SoftwareEngineer getSoftwareEngineerById(Integer id) {

@@ -8,6 +8,7 @@ import com.example.crud.frontpage.FrontpageFacade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,7 @@ public class IndexController {
 
   @GetMapping("/secure")
   @ResponseBody
+  @Cacheable("secureData")
   public String getSecureData(JwtAuthenticationToken token) {
     return "Hello " + token.getToken().getClaimAsString("name");
   }
