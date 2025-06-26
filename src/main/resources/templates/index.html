@@ -124,6 +124,10 @@
         scopes: ["api://4aa95498-a8b7-4227-89f0-463eb90015a7/access_as_user"],
       };
 
+      const graphRequest = {
+        scopes: ["https://graph.microsoft.com/User.Read"],
+      };
+
       const msalInstance = new PublicClientApplication(msalConfig);
 
       await msalInstance.initialize();
@@ -131,7 +135,10 @@
       async function signIn() {
         try {
           response = await msalInstance.loginPopup(loginRequest);
-          console.log("Login successful:", response);
+          const graphResponse = await msalInstance.acquireTokenSilent(
+            graphRequest
+          );
+          console.log("Login successful:", response, { graphResponse });
           return response;
         } catch (error) {
           console.error("Login failed:", error);
@@ -150,7 +157,11 @@
             ...loginRequest,
             account: accounts[0],
           });
-          console.log("Token refreshed:", response);
+          const graphResponse = await msalInstance.acquireTokenSilent({
+            ...graphRequest,
+            account: accounts[0],
+          });
+          console.log("Token refreshed:", response, graphResponse);
 
           return response;
         } catch (error) {
