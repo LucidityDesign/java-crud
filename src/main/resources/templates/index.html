@@ -1,112 +1,226 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" class="bg-[#f6f7fb]">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@5"
-      rel="stylesheet"
-      type="text/css"
-    />
+    <title>Dashboard UI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script
       src="https://unpkg.com/htmx.org@2.0.4"
       integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
       crossorigin="anonymous"
     ></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body class="bg-base-200 min-h-screen">
-    <header class="navbar bg-base-100 shadow-xl shadow-slate-200 mb-8">
-      <div class="flex-1">
-        <a class="btn btn-ghost text-xl">Spring Boot + MSAL.js</a>
+  <body class="flex h-screen font-sans text-gray-900">
+    <!-- Sidebar -->
+    <aside
+      class="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-4 space-y-6"
+    >
+      <!-- Top icon (avatar or logo) -->
+      <div class="w-10 h-10 rounded-full bg-gray-300"></div>
+
+      <!-- Navigation icons -->
+      <div class="flex flex-col space-y-6">
+        <div class="w-6 h-6 bg-gray-200 rounded-md"></div>
+        <div class="w-6 h-6 bg-gray-200 rounded-md"></div>
+        <div class="w-6 h-6 bg-gray-200 rounded-md"></div>
+        <div class="w-6 h-6 bg-gray-200 rounded-md"></div>
       </div>
-      <nav class="flex-none gap-2">
-        <button id="loginButton" class="btn btn-primary" onclick="signIn()">
-          Login with Azure AD
-        </button>
-        <button
-          th:if="${user.authenticated}"
-          id="refreshTokenButton"
-          class="btn btn-secondary"
-          onclick="refreshToken()"
-        >
-          Refresh Token
-        </button>
-      </nav>
-    </header>
 
-    <div class="max-w-4xl mx-auto px-4 flex flex-col gap-8 pb-8">
-      <section
-        hx-get="/api/v1/user/me"
-        hx-target=".user-info"
-        hx-swap="innerHTML"
-        hx-trigger="load"
-        class="user-info card bg-base-100 shadow-xl shadow-slate-200 p-6"
-      >
-        <div>Loading User Information...</div>
-        <div>...</div>
-      </section>
+      <!-- Settings/Menu icon -->
+      <div class="mt-auto w-6 h-6 bg-gray-200 rounded-md"></div>
+    </aside>
 
-      <section class="card bg-base-100 shadow-xl shadow-slate-200 p-8">
-        <div class="mb-4">
-          <h2 class="text-2xl font-bold mb-2">Welcome!</h2>
-          <p class="text-base-content">
-            Hello, this is a simple HTML page served by Spring Boot!
-          </p>
-        </div>
-        <div class="space-y-2">
-          <div>
-            <span class="font-semibold">User:</span>
-            <span th:text="${user.name}" class="badge badge-info"></span>
-          </div>
-          <div>
-            <span class="font-semibold">Authenticated:</span>
-            <span
-              th:text="${user.authenticated}"
-              class="badge badge-success"
-            ></span>
-          </div>
-        </div>
-      </section>
-      <section class="card bg-base-100 shadow-xl shadow-slate-200 p-8">
-        <h2 class="text-2xl font-bold mb-4">All registered users:</h2>
-        <div class="user-list">
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-6 space-y-6">
+      <!-- Header -->
+      <div>
+        <h1 class="text-2xl font-semibold mb-1">Hey, [[${user.name}]]</h1>
+        <p class="text-sm text-gray-500">Personal workspace</p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-6">
+        <!-- Job Listing -->
+        <div class="bg-white rounded-2xl p-6 shadow-lg space-y-4 col-span-1">
+          <h2 class="text-lg font-semibold">Job Listings</h2>
           <th:block
-            th:replace="~{user/list :: userListFragment(users=${frontpageData.users})}"
+            th:replace="~{job/list :: jobListFragment(jobs=${frontpageData.jobs})}"
           ></th:block>
         </div>
 
-        <button
-          hx-get="/api/v1/user"
-          hx-target=".user-list"
-          hx-swap="innerHTML"
-          class="btn btn-secondary mt-4"
-        >
-          Reload all users
-        </button>
-      </section>
-      <section class="card bg-base-100 shadow-xl shadow-slate-200 p-8">
-        <h2 class="text-2xl font-bold mb-4">Software Engineers:</h2>
-        <div class="engineer-list">
-          <th:block
-            th:replace="~{softwareEngineer/list :: softwareEngineerListFragment(softwareEngineers=${frontpageData.softwareEngineers})}"
-          ></th:block>
+        <!-- Main Content -->
+        <div class="col-span-2 gap-6 grid grid-cols-1">
+          <div class="job-content"></div>
+          <!-- Top Grid: User Info + Activities -->
+          <div class="grid grid-cols-3 gap-6">
+            <!-- User card -->
+            <div
+              class="bg-white rounded-2xl p-6 shadow-sm space-y-4 col-span-1"
+            >
+              <div class="flex items-center space-x-4">
+                <div class="w-14 h-14 rounded-full bg-gray-300"></div>
+                <div>
+                  <p class="font-semibold">Martin Boldsen</p>
+                  <p class="text-sm text-gray-500">Regional head of sales</p>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4 text-center">
+                <div>
+                  <p class="text-2xl font-bold">24</p>
+                  <p class="text-sm text-gray-500">Test-drives</p>
+                </div>
+                <div>
+                  <p class="text-2xl font-bold">17</p>
+                  <p class="text-sm text-gray-500">Sold cars</p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div class="flex -space-x-2">
+                  <div
+                    class="w-8 h-8 bg-gray-200 rounded-full border-2 border-white"
+                  ></div>
+                  <div
+                    class="w-8 h-8 bg-gray-200 rounded-full border-2 border-white"
+                  ></div>
+                  <div
+                    class="w-8 h-8 bg-gray-200 rounded-full border-2 border-white"
+                  ></div>
+                </div>
+                <span class="text-xs text-gray-500">+10</span>
+                <button
+                  class="ml-auto px-3 py-1 text-sm bg-gray-100 rounded-lg hover:bg-gray-200"
+                >
+                  Full report
+                </button>
+              </div>
+            </div>
+
+            <!-- Activities -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm col-span-2">
+              <h2 class="text-lg font-semibold mb-4">Activities</h2>
+              <div class="grid grid-cols-3 gap-4 text-center text-sm">
+                <div class="bg-gray-50 rounded-xl p-4">
+                  <p class="text-2xl font-bold">6</p>
+                  <p>New requests</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4">
+                  <p class="text-2xl font-bold">1</p>
+                  <p>Not converted</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4">
+                  <p class="text-2xl font-bold">2</p>
+                  <p>Started drives</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4">
+                  <p class="text-2xl font-bold">5</p>
+                  <p>Offers in review</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4">
+                  <p class="text-2xl font-bold">3</p>
+                  <p>New requests</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4">
+                  <p class="text-2xl font-bold">1</p>
+                  <p>Signed deals</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Departments -->
+          <div class="grid grid-cols-2 gap-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+              <h2 class="text-lg font-semibold mb-2">
+                Offline Sales Department
+              </h2>
+              <div class="text-sm text-gray-500 mb-4">Updated: 19.01.2025</div>
+              <div class="grid grid-cols-2 gap-4 text-center">
+                <div>
+                  <p class="text-2xl font-bold">24</p>
+                  <p class="text-sm text-gray-500">Test-drives</p>
+                </div>
+                <div>
+                  <p class="text-2xl font-bold">17</p>
+                  <p class="text-sm text-gray-500">Sold cars</p>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+              <h2 class="text-lg font-semibold mb-2">
+                Online Sales Department
+              </h2>
+              <div class="text-sm text-gray-500 mb-4">Updated: 19.01.2025</div>
+              <div class="grid grid-cols-2 gap-4 text-center">
+                <div>
+                  <p class="text-2xl font-bold">56</p>
+                  <p class="text-sm text-gray-500">Test-drives</p>
+                </div>
+                <div>
+                  <p class="text-2xl font-bold">23</p>
+                  <p class="text-sm text-gray-500">Sold cars</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tasks Section -->
+          <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-semibold">Tasks</h2>
+              <div class="flex items-center space-x-2">
+                <select
+                  class="text-sm border rounded-md px-2 py-1 text-gray-600"
+                >
+                  <option>Offline Sales Department</option>
+                  <option>Online Sales Department</option>
+                </select>
+                <button
+                  class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-xl"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div class="space-y-4 text-sm">
+              <div class="flex justify-between items-center border-b pb-2">
+                <div>
+                  <p class="font-semibold">Frederik Nielsen</p>
+                  <p class="text-xs text-gray-500">
+                    Create deal proposal · Due 21.02.2025
+                  </p>
+                </div>
+                <div class="flex space-x-2">
+                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
+                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
+                </div>
+              </div>
+              <div class="flex justify-between items-center border-b pb-2">
+                <div>
+                  <p class="font-semibold">Emma Sørensen</p>
+                  <p class="text-xs text-gray-500">
+                    Q1 report · Due 30.02.2025
+                  </p>
+                </div>
+                <div class="flex space-x-2">
+                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
+                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
+                </div>
+              </div>
+              <div class="flex justify-between items-center">
+                <div>
+                  <p class="font-semibold">Camilla Thomsen</p>
+                  <p class="text-xs text-gray-500">Analyze conversion rate</p>
+                </div>
+                <div class="flex space-x-2">
+                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
+                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <button
-          hx-get="/api/v1/software-engineer?page=1"
-          hx-target=".engineer-list"
-          hx-swap="innerHTML"
-          class="btn btn-secondary mt-4"
-        >
-          Load next page of Software Engineers
-        </button>
-        <a href="/software-engineer/add" class="btn btn-primary mt-4">
-          Add new Software Engineer
-        </a>
-      </section>
-    </div>
+      </div>
+    </main>
     <script type="module" th:inline="javascript">
       import { PublicClientApplication } from "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.13.1/+esm";
 

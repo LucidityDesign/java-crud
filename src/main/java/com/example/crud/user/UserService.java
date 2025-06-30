@@ -28,6 +28,10 @@ public class UserService {
     });
   }
 
+  public User updateUser(User user) {
+    return userRepository.save(user);
+  }
+
   public Optional<User> getUserByOid(String oid) {
     return userRepository.findByOid(oid);
   }
