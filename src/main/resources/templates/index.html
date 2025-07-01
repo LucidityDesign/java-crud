@@ -62,7 +62,7 @@
 
         <!-- Main Content -->
         <div class="col-span-2 gap-6 grid grid-cols-1">
-          <div class="job-content"></div>
+          <div class="job-content empty:hidden"></div>
           <!-- Top Grid: User Info + Activities -->
           <div class="grid grid-cols-3 gap-6">
             <!-- User card -->
@@ -72,18 +72,18 @@
               <div class="flex items-center space-x-4">
                 <div class="w-14 h-14 rounded-full bg-gray-300"></div>
                 <div>
-                  <p class="font-semibold">Martin Boldsen</p>
+                  <p class="font-semibold">[[${user.name}]]</p>
                   <p class="text-sm text-gray-500">Regional head of sales</p>
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-4 text-center">
                 <div>
                   <p class="text-2xl font-bold">24</p>
-                  <p class="text-sm text-gray-500">Test-drives</p>
+                  <p class="text-sm text-gray-500">Open Applications</p>
                 </div>
                 <div>
                   <p class="text-2xl font-bold">17</p>
-                  <p class="text-sm text-gray-500">Sold cars</p>
+                  <p class="text-sm text-gray-500">Rejected</p>
                 </div>
               </div>
               <div class="flex items-center space-x-2">
@@ -113,15 +113,15 @@
               <div class="grid grid-cols-3 gap-4 text-center text-sm">
                 <div class="bg-gray-50 rounded-xl p-4">
                   <p class="text-2xl font-bold">6</p>
-                  <p>New requests</p>
+                  <p>Stage 1 Interviews</p>
                 </div>
                 <div class="bg-gray-50 rounded-xl p-4">
                   <p class="text-2xl font-bold">1</p>
-                  <p>Not converted</p>
+                  <p>Withdrawn</p>
                 </div>
                 <div class="bg-gray-50 rounded-xl p-4">
                   <p class="text-2xl font-bold">2</p>
-                  <p>Started drives</p>
+                  <p>Potential leads</p>
                 </div>
                 <div class="bg-gray-50 rounded-xl p-4">
                   <p class="text-2xl font-bold">5</p>
@@ -134,42 +134,6 @@
                 <div class="bg-gray-50 rounded-xl p-4">
                   <p class="text-2xl font-bold">1</p>
                   <p>Signed deals</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Departments -->
-          <div class="grid grid-cols-2 gap-6">
-            <div class="bg-white rounded-2xl p-6 shadow-sm">
-              <h2 class="text-lg font-semibold mb-2">
-                Offline Sales Department
-              </h2>
-              <div class="text-sm text-gray-500 mb-4">Updated: 19.01.2025</div>
-              <div class="grid grid-cols-2 gap-4 text-center">
-                <div>
-                  <p class="text-2xl font-bold">24</p>
-                  <p class="text-sm text-gray-500">Test-drives</p>
-                </div>
-                <div>
-                  <p class="text-2xl font-bold">17</p>
-                  <p class="text-sm text-gray-500">Sold cars</p>
-                </div>
-              </div>
-            </div>
-            <div class="bg-white rounded-2xl p-6 shadow-sm">
-              <h2 class="text-lg font-semibold mb-2">
-                Online Sales Department
-              </h2>
-              <div class="text-sm text-gray-500 mb-4">Updated: 19.01.2025</div>
-              <div class="grid grid-cols-2 gap-4 text-center">
-                <div>
-                  <p class="text-2xl font-bold">56</p>
-                  <p class="text-sm text-gray-500">Test-drives</p>
-                </div>
-                <div>
-                  <p class="text-2xl font-bold">23</p>
-                  <p class="text-sm text-gray-500">Sold cars</p>
                 </div>
               </div>
             </div>
