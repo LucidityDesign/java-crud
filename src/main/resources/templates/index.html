@@ -61,7 +61,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="col-span-2 gap-6 grid grid-cols-1">
+        <div class="col-span-2 gap-6 grid grid-cols-1 content-start">
           <div class="job-content empty:hidden"></div>
           <!-- Top Grid: User Info + Activities -->
           <div class="grid grid-cols-3 gap-6">
@@ -142,7 +142,7 @@
           <!-- Tasks Section -->
           <div class="bg-white rounded-2xl p-6 shadow-sm">
             <div class="flex items-center justify-between mb-4">
-              <h2 class="text-lg font-semibold">Tasks</h2>
+              <h2 class="text-lg font-semibold">Open Applications</h2>
               <div class="flex items-center space-x-2">
                 <select
                   class="text-sm border rounded-md px-2 py-1 text-gray-600"
@@ -157,42 +157,7 @@
                 </button>
               </div>
             </div>
-            <div class="space-y-4 text-sm">
-              <div class="flex justify-between items-center border-b pb-2">
-                <div>
-                  <p class="font-semibold">Frederik Nielsen</p>
-                  <p class="text-xs text-gray-500">
-                    Create deal proposal · Due 21.02.2025
-                  </p>
-                </div>
-                <div class="flex space-x-2">
-                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
-                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex justify-between items-center border-b pb-2">
-                <div>
-                  <p class="font-semibold">Emma Sørensen</p>
-                  <p class="text-xs text-gray-500">
-                    Q1 report · Due 30.02.2025
-                  </p>
-                </div>
-                <div class="flex space-x-2">
-                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
-                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex justify-between items-center">
-                <div>
-                  <p class="font-semibold">Camilla Thomsen</p>
-                  <p class="text-xs text-gray-500">Analyze conversion rate</p>
-                </div>
-                <div class="flex space-x-2">
-                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
-                  <div class="w-5 h-5 bg-gray-200 rounded-full"></div>
-                </div>
-              </div>
-            </div>
+            <div hx-get="/api/v1/application" hx-trigger="load"></div>
           </div>
         </div>
       </div>

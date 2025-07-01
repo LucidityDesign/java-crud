@@ -24,4 +24,8 @@ public class JobService {
     return jobRepository.save(job);
   }
 
+  public Job getReferenceById(Long id) {
+    return jobRepository.getReferenceById(id);
+  }
+
 }

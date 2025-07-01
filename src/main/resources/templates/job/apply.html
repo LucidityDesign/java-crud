@@ -61,40 +61,76 @@
               th:action="@{/job/{id}/apply(id=${job.id})}"
               method="post"
               class="space-y-4"
+              th:object="${applicationForm}"
+              enctype="multipart/form-data"
             >
               <input
                 type="text"
                 name="name"
+                th:field="*{name}"
                 placeholder="Your Name"
                 class="w-full p-2 border border-gray-300 rounded mb-4"
                 required
               />
+              <span
+                class="text-red-500"
+                th:if="${#fields.hasErrors('name')}"
+                th:errors="*{name}"
+                >Name Error</span
+              >
               <input
                 type="email"
                 name="email"
+                th:field="*{email}"
                 placeholder="Your Email"
                 class="w-full p-2 border border-gray-300 rounded mb-4"
                 required
               />
+              <span
+                class="text-red-500"
+                th:if="${#fields.hasErrors('email')}"
+                th:errors="*{email}"
+                >Email Error</span
+              >
               <textarea
                 name="coverLetter"
+                th:field="*{coverLetter}"
                 placeholder="Cover Letter"
                 class="w-full p-2 border border-gray-300 rounded mb-4"
                 rows="4"
                 required
               ></textarea>
+              <span
+                class="text-red-500"
+                th:if="${#fields.hasErrors('coverLetter')}"
+                th:errors="*{coverLetter}"
+                >Cover Letter Error</span
+              >
               <label class="block mb-2 text-sm text-gray-700 flex flex-col">
                 Upload Resume
                 <small class="text-xs text-gray-500">PDF or DOCX only</small>
                 <input
                   type="file"
                   name="resume"
+                  th:field="*{resume}"
                   class="mb-4"
-                  required
                   accept=".pdf,.docx"
+                  required
                 />
+                <span
+                  class="text-red-500"
+                  th:if="${#fields.hasErrors('resume')}"
+                  th:errors="*{resume}"
+                  >Resume Error</span
+                >
               </label>
               <input type="hidden" name="jobId" th:value="${job.id}" />
+              <span
+                class="text-red-500"
+                th:if="${#fields.hasErrors('jobId')}"
+                th:errors="*{jobId}"
+                >Job ID Error</span
+              >
               <button
                 type="submit"
                 class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition-colors"

@@ -1,0 +1,83 @@
+<table
+  class="min-w-full divide-y divide-gray-200 shadow rounded-lg overflow-hidden"
+>
+  <thead class="bg-gray-100">
+    <tr>
+      <th
+        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+      >
+        ID
+      </th>
+      <th
+        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+      >
+        Name
+      </th>
+      <th
+        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+      >
+        Email
+      </th>
+      <th
+        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+      >
+        Cover Letter
+      </th>
+      <th
+        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+      >
+        CV
+      </th>
+    </tr>
+  </thead>
+  <tbody class="bg-white divide-y divide-gray-200">
+    <tr th:each="jobApplication : ${applications}">
+      <td
+        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+        th:text="${jobApplication.id}"
+      >
+        Application ID
+      </td>
+      <td
+        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+        th:text="${jobApplication.name}"
+      >
+        Name
+      </td>
+      <td
+        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+        th:text="${jobApplication.email}"
+      >
+        Email
+      </td>
+      <td
+        class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+        th:text="${jobApplication.coverLetter}"
+      >
+        Cover Letter
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+        <a
+          th:href="${jobApplication.resumeUrl}"
+          class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none"
+          title="Download CV"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

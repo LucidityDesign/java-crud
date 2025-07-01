@@ -40,4 +40,8 @@ public class UserService {
     int pageNumber = (page != null) ? page : 0;
     return userRepository.findAll(Pageable.ofSize(10).withPage(pageNumber)).getContent();
   }
+
+  public User getReferenceByOid(String oid) {
+    return userRepository.getReferenceByOid(oid);
+  }
 }

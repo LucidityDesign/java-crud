@@ -21,8 +21,7 @@ public class ApplicationForm {
   private String coverLetter;
 
   @NotNull
-  // validate file
-  @Size(max = 5 * 1024 * 1024, message = "Resume must be less than 5MB")
+  // TODO: validate file
   private MultipartFile resume;
   @NotNull
   @Min(value = 1, message = "Job ID must be a positive number")
@@ -61,5 +60,13 @@ public class ApplicationForm {
 
   public void setResume(MultipartFile resume) {
     this.resume = resume;
+  }
+
+  public Long getJobId() {
+    return jobId;
+  }
+
+  public void setJobId(Long jobId) {
+    this.jobId = jobId;
   }
 }
