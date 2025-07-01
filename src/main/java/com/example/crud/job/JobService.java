@@ -15,8 +15,8 @@ public class JobService {
     return jobRepository.findAll();
   }
 
-  public Job getJobById(String id) {
-    return jobRepository.findById(Long.parseLong(id))
+  public Job getJobById(Long id) {
+    return jobRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Job not found with id: " + id));
   }
 

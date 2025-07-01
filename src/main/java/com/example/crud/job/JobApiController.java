@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/api/v1/job")
-public class JobController {
+public class JobApiController {
 
   @Autowired
   private JobService jobService;
@@ -36,7 +36,7 @@ public class JobController {
   }
 
   @GetMapping("/{id}")
-  public String getCompanyById(@PathVariable String id, Model model) {
+  public String getCompanyById(@PathVariable Long id, Model model) {
     model.addAttribute("job", jobService.getJobById(id));
     return "job/view"; // Placeholder view name
   }
