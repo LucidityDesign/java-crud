@@ -1,0 +1,22 @@
+<ul th:fragment="jobListFragment" class="">
+  <li th:each="job : ${jobs}">
+    <a
+      th:href="@{/job/{id}(id=${job.id})}"
+      class="flex items-center space-x-4 py-4 px-2 border-gray-200 border-b hover:bg-gray-50"
+      hx-target=".job-content"
+      hx-swap="innerHTML"
+      th:hx-get="@{/api/v1/job/{id}(id=${job.id})}"
+      hx-trigger="click"
+    >
+      <h3
+        class="text-md font-semibold border-r pr-4 border-gray-300"
+        th:text="${job.company.name}"
+      ></h3>
+      <div class="flex gap-1">
+        <h3 class="text-md font-semibold" th:text="${job.id}"></h3>
+        <h3 class="text-md font-semibold" th:text="${job.name}"></h3>
+        <span th:text="' (' + ${job.jobLocation} + ')'"></span>
+      </div>
+    </a>
+  </li>
+</ul>

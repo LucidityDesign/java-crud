@@ -1,0 +1,8 @@
+<div>
+  <h1>The Company</h1>
+  <h2 th:text="${company.name}"></h2>
+  <h3>Jobs</h3>
+  <th:block
+    th:replace="~{job/list :: jobListFragment(jobs=${company.jobs})}"
+  ></th:block>
+</div>

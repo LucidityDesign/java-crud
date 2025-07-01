@@ -44,6 +44,10 @@ spring:
     redis:
       host: localhost
       port: 6379
+azure:
+  storage:
+    connection-string: DefaultEndpointsProtocol=https;AccountName=${AZURE_STORAGE_ACCOUNT_NAME};AccountKey=${AZURE_STORAGE_KEY};EndpointSuffix=core.windows.net
+    container-name: java-applications
 logging:
   level:
     org.springframework.security: DEBUG

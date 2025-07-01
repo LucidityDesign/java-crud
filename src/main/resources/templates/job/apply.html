@@ -37,7 +37,7 @@
       <header class="flex items-center justify-between mb-6">
         <div>
           <h1 class="text-2xl font-semibold mb-1">Hey, [[${user.name}]]</h1>
-          <p class="text-sm text-gray-500">Personal workspace</p>
+          <p class="text-sm text-gray-500">Start Applying</p>
         </div>
         <div class="logout-button">
           <button
@@ -53,111 +53,91 @@
 
       <div class="grid grid-cols-3 gap-6">
         <!-- Job Listing -->
-        <div class="bg-white rounded-2xl p-6 shadow-lg space-y-4 col-span-1">
-          <h2 class="text-lg font-semibold">Job Listings</h2>
-          <th:block
-            th:replace="~{job/list :: jobListFragment(jobs=${frontpageData.jobs})}"
-          ></th:block>
-        </div>
-
-        <!-- Main Content -->
-        <div class="col-span-2 gap-6 grid grid-cols-1 content-start">
-          <div class="job-content empty:hidden"></div>
-          <!-- Top Grid: User Info + Activities -->
-          <div class="grid grid-cols-3 gap-6">
-            <!-- User card -->
-            <div
-              class="bg-white rounded-2xl p-6 shadow-sm space-y-4 col-span-1"
+        <th:block th:replace="~{job/view :: jobViewFragment}"></th:block>
+        <div class="bg-white rounded-2xl p-6 shadow-lg space-y-4 col-span-2">
+          <h2 class="text-lg font-semibold">Apply</h2>
+          <div>
+            <form
+              th:action="@{/job/{id}/apply(id=${job.id})}"
+              method="post"
+              class="space-y-4"
+              th:object="${applicationForm}"
+              enctype="multipart/form-data"
             >
-              <div class="flex items-center space-x-4">
-                <div class="w-14 h-14 rounded-full bg-gray-300"></div>
-                <div>
-                  <p class="font-semibold">[[${user.name}]]</p>
-                  <p class="text-sm text-gray-500">Regional head of sales</p>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 gap-4 text-center">
-                <div>
-                  <p class="text-2xl font-bold">24</p>
-                  <p class="text-sm text-gray-500">Open Applications</p>
-                </div>
-                <div>
-                  <p class="text-2xl font-bold">17</p>
-                  <p class="text-sm text-gray-500">Rejected</p>
-                </div>
-              </div>
-              <div class="flex items-center space-x-2">
-                <div class="flex -space-x-2">
-                  <div
-                    class="w-8 h-8 bg-gray-200 rounded-full border-2 border-white"
-                  ></div>
-                  <div
-                    class="w-8 h-8 bg-gray-200 rounded-full border-2 border-white"
-                  ></div>
-                  <div
-                    class="w-8 h-8 bg-gray-200 rounded-full border-2 border-white"
-                  ></div>
-                </div>
-                <span class="text-xs text-gray-500">+10</span>
-                <button
-                  class="ml-auto px-3 py-1 text-sm bg-gray-100 rounded-lg hover:bg-gray-200"
+              <input
+                type="text"
+                name="name"
+                th:field="*{name}"
+                placeholder="Your Name"
+                class="w-full p-2 border border-gray-300 rounded mb-4"
+                required
+              />
+              <span
+                class="text-red-500"
+                th:if="${#fields.hasErrors('name')}"
+                th:errors="*{name}"
+                >Name Error</span
+              >
+              <input
+                type="email"
+                name="email"
+                th:field="*{email}"
+                placeholder="Your Email"
+                class="w-full p-2 border border-gray-300 rounded mb-4"
+                required
+              />
+              <span
+                class="text-red-500"
+                th:if="${#fields.hasErrors('email')}"
+                th:errors="*{email}"
+                >Email Error</span
+              >
+              <textarea
+                name="coverLetter"
+                th:field="*{coverLetter}"
+                placeholder="Cover Letter"
+                class="w-full p-2 border border-gray-300 rounded mb-4"
+                rows="4"
+                required
+              ></textarea>
+              <span
+                class="text-red-500"
+                th:if="${#fields.hasErrors('coverLetter')}"
+                th:errors="*{coverLetter}"
+                >Cover Letter Error</span
+              >
+              <label class="block mb-2 text-sm text-gray-700 flex flex-col">
+                Upload Resume
+                <small class="text-xs text-gray-500">PDF or DOCX only</small>
+                <input
+                  type="file"
+                  name="resume"
+                  th:field="*{resume}"
+                  class="mb-4"
+                  accept=".pdf,.docx"
+                  required
+                />
+                <span
+                  class="text-red-500"
+                  th:if="${#fields.hasErrors('resume')}"
+                  th:errors="*{resume}"
+                  >Resume Error</span
                 >
-                  Full report
-                </button>
-              </div>
-            </div>
-
-            <!-- Activities -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm col-span-2">
-              <h2 class="text-lg font-semibold mb-4">Activities</h2>
-              <div class="grid grid-cols-3 gap-4 text-center text-sm">
-                <div class="bg-gray-50 rounded-xl p-4">
-                  <p class="text-2xl font-bold">6</p>
-                  <p>Stage 1 Interviews</p>
-                </div>
-                <div class="bg-gray-50 rounded-xl p-4">
-                  <p class="text-2xl font-bold">1</p>
-                  <p>Withdrawn</p>
-                </div>
-                <div class="bg-gray-50 rounded-xl p-4">
-                  <p class="text-2xl font-bold">2</p>
-                  <p>Potential leads</p>
-                </div>
-                <div class="bg-gray-50 rounded-xl p-4">
-                  <p class="text-2xl font-bold">5</p>
-                  <p>Offers in review</p>
-                </div>
-                <div class="bg-gray-50 rounded-xl p-4">
-                  <p class="text-2xl font-bold">3</p>
-                  <p>New requests</p>
-                </div>
-                <div class="bg-gray-50 rounded-xl p-4">
-                  <p class="text-2xl font-bold">1</p>
-                  <p>Signed deals</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tasks Section -->
-          <div class="bg-white rounded-2xl p-6 shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-              <h2 class="text-lg font-semibold">Open Applications</h2>
-              <div class="flex items-center space-x-2">
-                <select
-                  class="text-sm border rounded-md px-2 py-1 text-gray-600"
-                >
-                  <option>Offline Sales Department</option>
-                  <option>Online Sales Department</option>
-                </select>
-                <button
-                  class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-xl"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-            <div hx-get="/api/v1/application" hx-trigger="load"></div>
+              </label>
+              <input type="hidden" name="jobId" th:value="${job.id}" />
+              <span
+                class="text-red-500"
+                th:if="${#fields.hasErrors('jobId')}"
+                th:errors="*{jobId}"
+                >Job ID Error</span
+              >
+              <button
+                type="submit"
+                class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition-colors"
+              >
+                Submit Application
+              </button>
+            </form>
           </div>
         </div>
       </div>

@@ -2,15 +2,22 @@ package com.example.crud.user;
 
 import java.util.List;
 
-import com.example.crud.softwareEngineer.SoftwareEngineer;
+import com.example.crud.company.Company;
+import com.example.crud.job.Job;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+enum Role {
+  USER, ADMIN
+}
 
 @Entity
 @Table(name = "users")
@@ -22,12 +29,16 @@ public class User {
 
   private String email;
   private String name;
+  private Role role = Role.USER; // Default role
 
   @Column(unique = true)
   private String oid; // From Azure 'oid' claim
 
-  @OneToMany(mappedBy = "author")
-  private List<SoftwareEngineer> softwareEngineers;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Company company;
+
+  @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+  private List<Job> jobs;
 
   // getters/setters
   public Long getId() {
@@ -60,6 +71,30 @@ public class User {
 
   public void setOid(String oid) {
     this.oid = oid;
+  }
+
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
+
+  public Company getCompany() {
+    return company;
+  }
+
+  public void setCompany(Company company) {
+    this.company = company;
+  }
+
+  public List<Job> getJobs() {
+    return jobs;
+  }
+
+  public void setJobs(List<Job> jobs) {
+    this.jobs = jobs;
   }
 
 }

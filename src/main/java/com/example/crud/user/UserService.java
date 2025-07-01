@@ -28,6 +28,10 @@ public class UserService {
     });
   }
 
+  public User updateUser(User user) {
+    return userRepository.save(user);
+  }
+
   public Optional<User> getUserByOid(String oid) {
     return userRepository.findByOid(oid);
   }
@@ -35,5 +39,9 @@ public class UserService {
   public List<User> getAllUsers(Integer page) {
     int pageNumber = (page != null) ? page : 0;
     return userRepository.findAll(Pageable.ofSize(10).withPage(pageNumber)).getContent();
+  }
+
+  public User getReferenceByOid(String oid) {
+    return userRepository.getReferenceByOid(oid);
   }
 }

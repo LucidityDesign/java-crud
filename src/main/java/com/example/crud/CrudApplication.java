@@ -32,4 +32,16 @@ public class CrudApplication {
 		return "Application is running!";
 	}
 
+	// @GetMapping("/admin/jobs")
+	// @PreAuthorize("hasRole('ADMIN')")
+	// public String getAdminJobs() {
+	// return "admin";
+	// }
+
+	// @GetMapping("/user/jobs")
+	// @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	// public String getAdminJob() {
+	// return "hans wurst";
+	// }
+
 }

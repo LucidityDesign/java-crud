@@ -1,0 +1,38 @@
+<div
+  class="bg-white rounded-2xl p-6 shadow-lg space-y-4"
+  th:fragment="jobViewFragment"
+>
+  <h3 class="text-lg font-semibold">[[${job.name}]]</h3>
+  <div>
+    <p class="text-sm text-gray-500">[[${job.description}]]</p>
+  </div>
+  <!-- Tags -->
+  <div class="flex flex-wrap gap-2">
+    <span
+      class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded"
+      >[[${job.type}]]</span
+    >
+    <span
+      class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded"
+      >[[${job.status}]]</span
+    >
+    <span
+      class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded"
+      >[[${job.level}]]</span
+    >
+    <span
+      class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded"
+      >[[${job.jobLocation}]]</span
+    >
+  </div>
+  <a
+    th:href="@{/job/{id}/apply(id=${job.id})}"
+    class="inline-block bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+  >
+    Apply Now
+  </a>
+  <div class="text-sm text-gray-500">
+    <p>Posted by: [[${job.author.name}]]</p>
+    <p>Location: [[${job.location}]]</p>
+  </div>
+</div>
