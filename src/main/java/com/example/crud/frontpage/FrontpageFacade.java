@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.crud.softwareEngineer.SoftwareEngineer;
-import com.example.crud.softwareEngineer.SoftwareEngineerService;
+import com.example.crud.job.Job;
+import com.example.crud.job.JobService;
 import com.example.crud.user.User;
 import com.example.crud.user.UserService;
 
@@ -17,14 +17,14 @@ public class FrontpageFacade {
   private UserService userService;
 
   @Autowired
-  private SoftwareEngineerService softwareEngineerService;
+  private JobService jobService;
 
   public FrontpageData getFrontpageData() {
     Integer page = 0;
 
     List<User> users = userService.getAllUsers(page);
-    List<SoftwareEngineer> softwareEngineers = softwareEngineerService.getAllSoftwareEngineers(page);
-    FrontpageData data = new FrontpageData(users, softwareEngineers);
+    List<Job> jobs = jobService.getJobs();
+    FrontpageData data = new FrontpageData(users, jobs);
 
     return data;
   }
