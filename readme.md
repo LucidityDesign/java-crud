@@ -6,9 +6,18 @@ This repository serves as a demonstration project for building a basic job board
 
 I'm using this repository to learn Java Spring Boot and practice building RESTful applications.
 
-## Develop
+## Run
 
-1. `./mvnw spring-boot:run`
+### Local development
+
+1. `docker-compose up -d db cache`
+1. add `"envFile": "${workspaceFolder}/.env"` to `.csvode/launch.json`
+1. run java from your IDE (in debug mode)
+
+### Docker
+
+1. `./mvnw package`
+1. `docker-compose up --build`
 
 ## Features (all in WIP)
 
