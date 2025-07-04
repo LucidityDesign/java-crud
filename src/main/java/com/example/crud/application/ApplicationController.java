@@ -1,5 +1,7 @@
 package com.example.crud.application;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -20,7 +22,6 @@ import com.example.crud.user.User;
 import com.example.crud.user.UserService;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping
@@ -90,8 +91,8 @@ public class ApplicationController implements WebMvcConfigurer {
   public String getApplications(JwtAuthenticationToken token, Model model) {
     String oid = token.getToken().getClaimAsString("oid");
     User userEntry = userService.getReferenceByOid(oid);
-
-    model.addAttribute("applications", applicationService.getApplicationsByApplicantId(userEntry.getId()));
+    List<Application> applications = applicationService.getApplicationsByApplicantId(userEntry.getId());
+    model.addAttribute("applications", applications);
     return "application/list";
   }
 
