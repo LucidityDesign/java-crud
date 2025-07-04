@@ -34,4 +34,5 @@ I'm using this repository to learn Java Spring Boot and practice building RESTfu
 1. Clean up Controllers that reference multiple services (use facades)
 1. Error handling
 1. Tests
+1. Modularize views
 1. ...
