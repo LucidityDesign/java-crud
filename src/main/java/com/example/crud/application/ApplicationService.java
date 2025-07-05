@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ApplicationService {
 
@@ -17,7 +19,7 @@ public class ApplicationService {
 
   public Application getApplicationById(Long id) {
     return applicationRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Application not found with id: " + id));
+        .orElseThrow(() -> new EntityNotFoundException("Application not found with id: " + id));
   }
 
   public void deleteApplication(Long id) {
