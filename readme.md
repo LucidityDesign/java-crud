@@ -8,6 +8,11 @@ I'm using this repository to learn Java Spring Boot and practice building RESTfu
 
 ## Run
 
+### Prerequisite
+
+1. `terraform plan`
+1. `terraform apply`
+
 ### Local development
 
 1. `docker-compose up -d db cache`
