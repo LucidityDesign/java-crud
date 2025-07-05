@@ -21,7 +21,7 @@ I'm using this repository to learn Java Spring Boot and practice building RESTfu
 
 ### Docker
 
-1. `./mvnw package`
+1. `export $(cat .env | xargs) && ./mvnw package`
 1. `docker-compose up --build`
 
 ## Features (all in WIP)
