@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class CompanyService {
 
@@ -16,7 +18,8 @@ public class CompanyService {
   }
 
   public Company getCompanyById(String id) {
-    return companyRepository.findById(Long.parseLong(id)).orElse(null);
+    return companyRepository.findById(Long.parseLong(id))
+        .orElseThrow(() -> new EntityNotFoundException("Company with id " + id + " not found"));
   }
 
   public Company addCompany(Company company) {
