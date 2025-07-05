@@ -1,56 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-[#f6f7fb]">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard UI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script
-      src="https://unpkg.com/htmx.org@2.0.4"
-      integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body class="flex h-screen font-sans text-gray-900">
-    <!-- Sidebar -->
-    <aside
-      class="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-4 space-y-6"
-    >
-      <!-- Top icon (avatar or logo) -->
-      <div class="w-10 h-10 rounded-full bg-gray-300"></div>
-
-      <!-- Navigation icons -->
-      <div class="flex flex-col space-y-6">
-        <div class="w-6 h-6 bg-gray-200 rounded-md"></div>
-        <div class="w-6 h-6 bg-gray-200 rounded-md"></div>
-        <div class="w-6 h-6 bg-gray-200 rounded-md"></div>
-        <div class="w-6 h-6 bg-gray-200 rounded-md"></div>
-      </div>
-
-      <!-- Settings/Menu icon -->
-      <div class="mt-auto w-6 h-6 bg-gray-200 rounded-md"></div>
-    </aside>
+<html xmlns:th="http://www.thymeleaf.org">
+  <th:block th:replace="fragments/layout :: layout (~{::title}, ~{::content})">
+    <th:block th:fragment="title">
+      <title>Apply</title>
+    </th:block>
 
     <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto p-6 space-y-6">
-      <!-- Header -->
-      <header class="flex items-center justify-between mb-6">
-        <div>
-          <h1 class="text-2xl font-semibold mb-1">Hey, [[${user.name}]]</h1>
-          <p class="text-sm text-gray-500">Start Applying</p>
-        </div>
-        <div class="logout-button">
-          <button
-            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            hx-get="/logout"
-            hx-target=".logout-button"
-            hx-swap="innerHTML"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
-
+    <th:block th:fragment="content">
       <div class="grid grid-cols-3 gap-6">
         <!-- Job Listing -->
         <th:block th:replace="~{job/view :: jobViewFragment}"></th:block>
@@ -141,90 +97,6 @@
           </div>
         </div>
       </div>
-    </main>
-    <script type="module" th:inline="javascript">
-      import { PublicClientApplication } from "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.13.1/+esm";
-
-      let response;
-
-      const msalConfig = {
-        auth: {
-          clientId: "4aa95498-a8b7-4227-89f0-463eb90015a7",
-          authority:
-            "https://login.microsoftonline.com/40fe86af-6ef5-4f98-afac-d84bc53212dd",
-          redirectUri: "http://localhost:8080/login/oauth2/code/azure/",
-        },
-      };
-      const loginRequest = {
-        scopes: ["api://4aa95498-a8b7-4227-89f0-463eb90015a7/access_as_user"],
-      };
-
-      const graphRequest = {
-        scopes: ["https://graph.microsoft.com/User.Read"],
-      };
-
-      const msalInstance = new PublicClientApplication(msalConfig);
-
-      await msalInstance.initialize();
-
-      async function signIn() {
-        try {
-          response = await msalInstance.loginPopup(loginRequest);
-          const graphResponse = await msalInstance.acquireTokenSilent(
-            graphRequest
-          );
-          console.log("Login successful:", response, { graphResponse });
-          return response;
-        } catch (error) {
-          console.error("Login failed:", error);
-        }
-      }
-
-      async function refreshToken() {
-        try {
-          const accounts = msalInstance.getAllAccounts();
-          if (accounts.length === 0) {
-            console.log("No accounts found, signing in...");
-            await signIn();
-            return;
-          }
-          response = await msalInstance.acquireTokenSilent({
-            ...loginRequest,
-            account: accounts[0],
-          });
-          const graphResponse = await msalInstance.acquireTokenSilent({
-            ...graphRequest,
-            account: accounts[0],
-          });
-          console.log("Token refreshed:", response, graphResponse);
-
-          return response;
-        } catch (error) {
-          console.warn(
-            "Silent token acquisition failed, falling back to interactive login.",
-            error
-          );
-          return signIn();
-        }
-      }
-
-      // Dealy htmx request until the auth promise has resolved
-      // @see https://htmx.org/examples/async-auth/
-      document.body.addEventListener("htmx:confirm", (e) => {
-        // if there is no auth token
-        if (response == null) {
-          // stop the regular request from being issued
-          e.preventDefault();
-          // only issue it once the auth promise has resolved
-          refreshToken().then(() => e.detail.issueRequest());
-        }
-      });
-
-      // add the auth token to the request as a header
-      document.body.addEventListener("htmx:configRequest", (e) => {
-        e.detail.headers["Authorization"] = `Bearer ${response.accessToken}`;
-      });
-      await refreshToken();
-    </script>
-  </body>
+    </th:block>
+  </th:block>
 </html>
