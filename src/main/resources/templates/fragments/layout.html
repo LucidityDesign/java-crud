@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <th:block th:fragment="layout (title, content)">
     <html lang="en" class="bg-[#f6f7fb]">
       <head>
@@ -42,9 +45,17 @@
               <!-- TODO this should be dynamic -->
               <p class="text-sm text-gray-500">Personal workspace</p>
             </div>
-            <div class="logout-button">
+            <div class="buttons flex items-center space-x-2">
+              <th:block sec:authorize="hasRole('ADMIN')">
+                <a
+                  class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  href="/admin"
+                >
+                  Admin
+                </a>
+              </th:block>
               <button
-                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
                 hx-get="/logout"
                 hx-target=".logout-button"
                 hx-swap="innerHTML"
