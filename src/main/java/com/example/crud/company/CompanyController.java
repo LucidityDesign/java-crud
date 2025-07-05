@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.crud.user.User;
 import com.example.crud.user.UserService;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +45,7 @@ public class CompanyController {
   }
 
   @PostMapping("/")
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<CompanyDto> addCompany(@RequestBody Company company, JwtAuthenticationToken token) {
     // TODO validate company object
 
@@ -58,6 +61,20 @@ public class CompanyController {
     CompanyDto createdCompanyDto = CompanyMapper.mapToDto(createdCompany);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(createdCompanyDto);
+  }
+
+  @DeleteMapping("/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<Void> deleteCompany(@PathVariable String id, JwtAuthenticationToken token) {
+    String oid = token.getToken().getClaimAsString("oid");
+    User me = userService.getUserByOid(oid).orElseThrow();
+
+    if (id == null || !id.equals(me.getCompany().getId().toString())) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+    companyService.deleteCompany(me.getCompany());
+    return ResponseEntity.noContent().build();
   }
 
 }
