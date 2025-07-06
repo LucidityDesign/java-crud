@@ -11,7 +11,7 @@ I'm using this repository to learn Java Spring Boot and practice building RESTfu
 ### Prerequisite
 
 1. `terraform plan`
-1. `terraform apply`
+1. `terraform apply -var-file="terraform.tfvars"`
 
 ### Local development
 
