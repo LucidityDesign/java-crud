@@ -1,3 +1,5 @@
+server:
+  port: ${PORT:8080}
 spring:
   application:
     name: crud
@@ -42,6 +44,7 @@ spring:
       time-to-live: 3600 # 1 hour
   data:
     redis:
+      # Get the host etc. from Azure Key Vault
       host: localhost
       port: 6379
 azure:

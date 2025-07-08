@@ -6,7 +6,7 @@ variable "subscription_id" {
 variable "location" {
   description = "Azure Region"
   type        = string
-  default     = "germanywestcentral"
+  default     = "West Europe"
 }
 
 variable "resource_group_name" {
@@ -24,12 +24,23 @@ variable "app_display_name" {
   type        = string
 }
 
-variable "identifier_uri" {
-  description = "Identifier URI for the AzureAD application"
+variable "owner_object_id" {
+  description = "Azure AD Object ID of the application owner"
   type        = string
 }
 
-variable "owner_object_id" {
-  description = "Azure AD Object ID of the application owner"
+variable "postgres_user" {
+  description = "PostgreSQL admin username"
+  type        = string
+}
+
+variable "postgres_password" {
+  description = "PostgreSQL admin password"
+  type        = string
+  sensitive   = true
+}
+
+variable "postgres_db" {
+  description = "PostgreSQL database name"
   type        = string
 }

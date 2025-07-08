@@ -75,15 +75,19 @@
 
           const msalConfig = {
             auth: {
-              clientId: "4aa95498-a8b7-4227-89f0-463eb90015a7",
+              // TODO: get values from env or vault
+              clientId: "6ab14997-110d-4246-927a-6da4e133b86b",
               authority:
+                // TODO: get values from env or vault
                 "https://login.microsoftonline.com/40fe86af-6ef5-4f98-afac-d84bc53212dd",
-              redirectUri: "http://localhost:8080/login/oauth2/code/azure/",
+              redirectUri:
+                "https://java-crud-app-kjrkrgl.azurewebsites.net/login/oauth2/code/azure/",
             },
           };
           const loginRequest = {
             scopes: [
-              "api://4aa95498-a8b7-4227-89f0-463eb90015a7/access_as_user",
+              // TODO: get values from env or vault
+              "api://6ab14997-110d-4246-927a-6da4e133b86b/access_as_user",
             ],
           };
 
