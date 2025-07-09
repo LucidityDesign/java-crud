@@ -1,3 +1,14 @@
+variable "github_token" {
+  description = "GitHub Personal Access Token"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_owner" {
+  description = "GitHub Username or Organization"
+  type        = string
+}
+
 variable "subscription_id" {
   description = "Azure Subscription ID"
   type        = string
