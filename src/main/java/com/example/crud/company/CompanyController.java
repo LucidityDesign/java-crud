@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
+// @SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/api/v1/company")
 public class CompanyController {
 
@@ -45,6 +46,7 @@ public class CompanyController {
   }
 
   @PostMapping("/")
+  @ResponseBody
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<CompanyDto> addCompany(@RequestBody Company company, JwtAuthenticationToken token) {
     // TODO validate company object
@@ -65,6 +67,7 @@ public class CompanyController {
 
   @DeleteMapping("/{id}")
   @PreAuthorize("hasRole('ADMIN')")
+  @ResponseBody
   public ResponseEntity<Void> deleteCompany(@PathVariable String id, JwtAuthenticationToken token) {
     String oid = token.getToken().getClaimAsString("oid");
     User me = userService.getUserByOid(oid).orElseThrow();
